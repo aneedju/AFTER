@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reviews</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- Header -->
+    <header class="top">
+      <h1 class="page-title">Reviews</h1>
+      <div class="top-row">
+        <p class="kicker"><span id="todayStamp"></span><span><span id="totalCount">0</span> entries</span></p>
+        <div class="top-actions">
+          <button class="btn btn-ink" id="openWrite" type="button">Write review</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Filter / search / sort -->
+    <section class="toolbar">
+      <div class="chips" id="filterChips">
+        <button class="chip active" data-filter="all" type="button">All</button>
+        <button class="chip" data-filter="movie" type="button">Movie</button>
+        <button class="chip" data-filter="drama" type="button">Drama</button>
+      </div>
+      <div class="toolbar-right">
+        <div class="view-toggle" id="viewToggle" role="group" aria-label="보기 방식">
+          <button class="chip active" data-mode="photo" type="button">Photo</button>
+          <button class="chip" data-mode="list" type="button">List</button>
+        </div>
+        <input class="search" id="searchInput" type="search" placeholder="Search title" autocomplete="off">
+        <select class="select" id="yearSelect" aria-label="Year">
+          <option value="all">All years</option>
+        </select>
+        <select class="select" id="sortSelect" aria-label="Sort">
+          <option value="new">Newest</option>
+          <option value="old">Oldest</option>
+          <option value="high">Highest rated</option>
+          <option value="low">Lowest rated</option>
+          <option value="title">Title</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- Review grid -->
+    <main>
+      <section class="grid" id="reviewGrid"></section>
+
+      <div class="empty" id="emptyState" hidden>
+        <h2 id="emptyTitle">No reviews yet</h2>
+        <p id="emptyDesc">Write your first review.</p>
+        <button class="btn btn-ink" id="emptyWrite" type="button">Write review</button>
+      </div>
+    </main>
+  </div>
+
+  <!-- Write / edit sheet -->
+  <div class="sheet-wrap" id="writeModal" hidden>
+    <div class="overlay" data-close="write"></div>
+    <button class="x-btn" type="button" data-close="write" aria-label="Close">
+      <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M5 5.5 C 9 9, 14 14.5, 19 18.6 M18.6 5 C 14 9.5, 9.6 14, 5.2 19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+
+    <div class="sheet write-sheet" role="dialog" aria-modal="true" aria-labelledby="writeTitle">
+      <div class="sheet-inner">
+
+        <div class="sheet-head">
+          <div class="head-text">
+            <h2 id="writeTitle">Write a review</h2>
+            <p class="draft-status" id="draftStatus" aria-live="polite"></p>
+          </div>
+          <div class="head-actions">
+            <button class="btn btn-text" id="discardDraft" type="button">Discard draft</button>
+            <button class="btn btn-ink" id="saveBtn" type="submit" form="reviewForm">Save review</button>
+          </div>
+        </div>
+
+        <form id="reviewForm" class="write-grid" novalidate>
+
+          <div class="col-left">
+            <div class="panel">
+              <p class="panel-label">Photo</p>
+              <div class="photo-frame">
+                <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Upload photo">
+                  <div class="dz-empty" id="dropzoneEmpty">
+                    <strong>Upload photo</strong>
+                    <span>Click or drop an image</span>
+                  </div>
+                  <img id="photoPreview" alt="" hidden>
+                </div>
+              </div>
+              <input type="file" id="photoInput" accept="image/*" hidden>
+              <button class="text-btn" id="photoRemove" type="button" hidden>Remove photo</button>
+            </div>
+          </div>
+
+          <div class="col-right">
+            <div class="panel">
+              <label class="panel-label" for="titleInput">Title</label>
+              <input class="title-input" id="titleInput" type="text" maxlength="80" autocomplete="off">
+              <p class="error" id="titleError" hidden>Please enter a title.</p>
+            </div>
+
+            <div class="panel-row">
+              <div class="panel">
+                <p class="panel-label">Type</p>
+                <div class="chips" id="typeSegment">
+                  <button type="button" class="chip active" data-type="movie">Movie</button>
+                  <button type="button" class="chip" data-type="drama">Drama</button>
+                </div>
+              </div>
+              <div class="panel">
+                <label class="panel-label" for="dateInput">Watched on</label>
+                <input class="date-input" id="dateInput" type="date">
+              </div>
+            </div>
+
+            <div class="panel">
+              <p class="panel-label">Rating</p>
+              <div class="rating-row">
+                <div class="star-input" id="starInput" role="slider" aria-label="Rating" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0" tabindex="0"></div>
+                <div class="rating-value"><span class="rating-number" id="ratingNumber">0.0</span><span class="rating-max">/ 5</span></div>
+              </div>
+              <p class="error" id="ratingError" hidden>Please choose a rating.</p>
+            </div>
+
+            <div class="panel">
+              <label class="panel-label" for="contentInput">Review</label>
+              <textarea class="review-input" id="contentInput" maxlength="3000"></textarea>
+              <div class="char-count"><span id="charCount">0</span> / 3000</div>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detail sheet -->
+  <div class="sheet-wrap" id="detailModal" hidden>
+    <div class="overlay" data-close="detail"></div>
+    <button class="x-btn" type="button" data-close="detail" aria-label="Close">
+      <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M5 5.5 C 9 9, 14 14.5, 19 18.6 M18.6 5 C 14 9.5, 9.6 14, 5.2 19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+
+    <div class="sheet detail-sheet" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+      <div class="sheet-inner">
+
+        <div class="sheet-head">
+          <div class="head-text">
+            <h2 id="detailTitle"></h2>
+            <p class="meta" id="detailMeta"></p>
+          </div>
+          <div class="head-actions">
+            <button class="btn btn-outline btn-delete" id="deleteBtn" type="button">Delete</button>
+            <button class="btn btn-ink" id="editBtn" type="button">Edit</button>
+          </div>
+        </div>
+
+        <div class="detail-grid">
+          <div class="photo-frame">
+            <div class="detail-photo" id="detailPhoto"></div>
+          </div>
+          <div class="detail-info">
+            <div class="detail-rating" id="detailRating"></div>
+            <div class="detail-content" id="detailContent"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
