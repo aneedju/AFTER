@@ -43,6 +43,9 @@
 /* ===== Base ===== */
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
+/* scrolling still works, but no scrollbar is drawn */
+html, body, .sheet { scrollbar-width: none; -ms-overflow-style: none; }
+html::-webkit-scrollbar, body::-webkit-scrollbar, .sheet::-webkit-scrollbar { display: none; width: 0; height: 0; }
 body {
   margin: 0;
   min-height: 100vh;
@@ -116,7 +119,7 @@ select option { background: var(--paper); color: var(--ink); }
 .text-btn:hover { color: var(--danger); }
 
 /* ===== Page ===== */
-.container { max-width: 1280px; margin: 0 auto; padding: 44px 40px 120px; }
+.container { max-width: 1280px; margin: 0 auto; padding: 44px 40px 64px; }
 
 .top { margin-bottom: 36px; }
 .page-title {
@@ -192,7 +195,7 @@ select option { background: var(--paper); color: var(--ink); }
 }
 .card-rating .star { font-size: 12px; }
 
-.empty { text-align: center; padding: 100px 20px; }
+.empty { text-align: center; padding: 48px 20px; }
 .empty h2 { margin: 0 0 6px; font-family: var(--hand); font-weight: 400; font-size: 44px; }
 .empty p { margin: 0 0 28px; font-size: 14px; color: var(--ink-2); }
 
@@ -372,7 +375,7 @@ select option { background: var(--paper); color: var(--ink); }
   .col-left { max-width: 420px; }
 }
 @media (max-width: 760px) {
-  .container { padding: 28px 18px 80px; }
+  .container { padding: 28px 18px 48px; }
   .top-row { flex-wrap: wrap; }
   .grid { gap: 14px; }
   .grid-col { gap: 28px; }
