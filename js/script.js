@@ -461,8 +461,18 @@
     }
 
     openSheet(els.writeModal);
-    els.writeModal.querySelector('.sheet').scrollTop = 0;
-    setTimeout(() => els.title.focus(), 60);
+    const writeSheet = els.writeModal.querySelector('.sheet');
+    writeSheet.scrollTop = 0;
+    // Desktop only: on phones, focusing the title pops up the keyboard and scrolls the sheet down,
+    // so the photo area at the top ends up hidden when the sheet opens.
+    const isTouch = window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 760;
+    if (!isTouch) {
+      setTimeout(() => els.title.focus({ preventScroll: true }), 60);
+    } else {
+      // make sure the sheet starts at the very top after the open animation / address-bar changes
+      requestAnimationFrame(() => { writeSheet.scrollTop = 0; });
+      setTimeout(() => { writeSheet.scrollTop = 0; }, 120);
+    }
   }
 
   // X, overlay click and ESC all keep the draft
