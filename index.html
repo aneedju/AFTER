@@ -13,6 +13,25 @@
 </head>
 <body>
 
+  <!-- Login gate: shown until you are signed in -->
+  <div class="auth-gate" id="authGate">
+    <div class="auth-box">
+      <h1 class="auth-title">AFTER</h1>
+      <form class="auth-form" id="authForm" novalidate hidden>
+        <div class="panel">
+          <label class="panel-label" for="authEmail">Email</label>
+          <input class="auth-input" id="authEmail" type="email" autocomplete="username" inputmode="email" autocapitalize="none" required>
+        </div>
+        <div class="panel">
+          <label class="panel-label" for="authPassword">Password</label>
+          <input class="auth-input" id="authPassword" type="password" autocomplete="current-password" required>
+        </div>
+        <button class="btn btn-ink" id="authSubmit" type="submit">Log in</button>
+      </form>
+      <p class="error auth-error" id="authError" hidden></p>
+    </div>
+  </div>
+
   <div class="container">
 
     <!-- Header -->
@@ -21,6 +40,8 @@
       <div class="top-row">
         <p class="kicker"><span id="todayStamp"></span><span><span id="totalCount">0</span> entries</span></p>
         <div class="top-actions">
+          <button class="btn btn-text" id="importLocal" type="button" hidden>Import from this device</button>
+          <button class="btn btn-text" id="logoutBtn" type="button">Log out</button>
           <button class="btn btn-ink" id="openWrite" type="button">Write review</button>
         </div>
       </div>
@@ -183,6 +204,7 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/script.js"></script>
 </body>
 </html>

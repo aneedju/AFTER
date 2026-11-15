@@ -400,3 +400,32 @@ select option { background: var(--paper); color: var(--ink); }
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
 }
+
+/* ===== Login gate ===== */
+.auth-gate {
+  position: fixed; inset: 0; z-index: 300;
+  display: grid; place-items: center; padding: 24px;
+  background-color: var(--drawing);
+  background-image: var(--paper-fiber), var(--paper-tex);
+  background-blend-mode: normal, multiply;
+  overflow: auto;
+}
+.auth-box { width: min(380px, 100%); }
+.auth-title {
+  margin: 0 0 36px; font-family: var(--hand); font-weight: 400;
+  font-size: clamp(72px, 22vw, 120px); line-height: .9; letter-spacing: .06em;
+}
+.auth-form { display: flex; flex-direction: column; gap: 28px; }
+.auth-input {
+  width: 100%; height: 40px; padding: 0 2px;
+  border: 0; border-bottom: 1px solid var(--line); border-radius: 0;
+  background: transparent; outline: none;
+  font-family: var(--mono); font-size: 16px; /* 16px stops iOS from zooming in on focus */
+}
+.auth-form .btn { width: 100%; height: 46px; margin-top: 4px; }
+.auth-form .btn:disabled { opacity: .5; cursor: default; }
+.auth-error { margin-top: 18px; }
+
+/* ===== Header actions (import / log out / write) ===== */
+.top-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+.btn:disabled { opacity: .5; cursor: default; }
