@@ -386,8 +386,12 @@ select option { background: var(--paper); color: var(--ink); }
   .panel-row { grid-template-columns: 1fr; }
   .sheet { top: 56px; }
   .sheet-inner { padding: 0 20px 56px; }
-  .sheet-head { flex-wrap: wrap; align-items: flex-start; padding-top: 28px; }
-  .head-text h2 { font-size: 42px; }
+  .sheet-head {
+    position: static; /* 모바일에서는 sticky 해제 */
+    flex-wrap: wrap; align-items: flex-start;
+    padding-top: 20px; margin-bottom: 24px;
+  }
+  .head-text h2 { font-size: 36px; }
 }
 @media (max-width: 460px) {
   .card-meta { flex-direction: column; gap: 2px; }
