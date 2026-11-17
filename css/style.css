@@ -430,14 +430,11 @@ select option { background: var(--paper); color: var(--ink); }
 .top-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
 .btn:disabled { opacity: .5; cursor: default; }
 
-/* ===== iPhone Safari: keep the sheets full-height (dvh follows the visible area) ===== */
+/* ===== iPhone Safari: sheets must reach the real bottom of the screen =====
+   Newer iOS Safari can stop fixed layers above its floating toolbar. The layer is stretched 240px past
+   the bottom edge (off-screen), and the scroll area gets the same amount of extra padding, so nothing is cut off. */
 @media (max-width: 760px) {
-  .sheet-wrap { height: 100vh; height: 100dvh; }
-  .sheet {
-    top: 56px; bottom: auto;
-    height: calc(100vh - 56px);
-    height: calc(100dvh - 56px);
-    overscroll-behavior: contain;
-  }
-  .sheet-inner { padding-bottom: calc(56px + env(safe-area-inset-bottom)); }
+  .sheet-wrap { bottom: -240px; }
+  .sheet-inner { padding-bottom: calc(240px + 56px + env(safe-area-inset-bottom)); }
+  .sheet { overscroll-behavior: contain; }
 }
